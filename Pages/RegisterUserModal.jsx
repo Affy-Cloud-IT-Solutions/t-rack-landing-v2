@@ -23,22 +23,30 @@ export default function RegisterUserModal({ email, password, onClose }) {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("email", email);
-      formData.append("name", userData.name);
-      formData.append("password", password);
-      formData.append("companyName", userData.companyName);
-      formData.append("phoneNumber", userData.phoneNumber);
-      formData.append("address.country", userData.address.country);
-      formData.append("address.city", userData.address.city);
-      formData.append("address.state", userData.address.state);
-      formData.append("address.zipCode", userData.address.zipCode);
+      
+      // Add required fields
+      formData.append('name', userData.name);
+      formData.append('companyName', userData.companyName);
+      formData.append('phoneNumber', userData.phoneNumber);
+
+      // Only add address if any address field is filled
+      if (userData.address.country || userData.address.city || 
+          userData.address.state || userData.address.zipCode) {
+        const addressData = {
+          country: userData.address.country,
+          city: userData.address.city,
+          state: userData.address.state,
+          zipCode: userData.address.zipCode
+        };
+        formData.append('address', JSON.stringify(addressData));
+      }
 
       const res = await fetch("http://192.168.29.44:8080/api/company", {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken") || ""}`,
         },
-        body: formData,
+        body: formData
       });
 
       const data = await res.json();
