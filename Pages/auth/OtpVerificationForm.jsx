@@ -1,9 +1,12 @@
 "use client";
-import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import {  useSearchParams } from 'next/navigation';
 import apiClient, { VERIFY_OTP, RESEND_OTP, FORGOT_PASSWORD_OR_RESEND_OTP } from '@/config/api';
+import { useEffect, useState } from 'react';
 
 export default function OtpVerificationForm() {
+  const [isClient, setIsClient] = useState(false);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get('email');
@@ -35,6 +38,14 @@ export default function OtpVerificationForm() {
       setResending(false);
     }
   };
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null; // or a loading skeleton
+
+
 
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
