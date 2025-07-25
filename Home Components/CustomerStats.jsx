@@ -23,7 +23,7 @@ const AnimatedCounter = ({ target }) => {
 const CustomerStats = () => {
   return (
     <div className="bg-white md:pt-0 pt-0 pb-12 relative overflow-hidden">
-      <div className="relative mx-auto max-w-8xl bg-[#7dbfed] px-4 py-10 md:py-11.5">
+      <div className="relative mx-auto max-w-8xl bg-[#7dbfed] px-4 py-8 md:py-11.5">
         <div className="relative z-20 max-w-5xl mx-auto text-white">
           <h2 className="text-[24px] sm:text-[28px] md:text-[36px] lg:text-[42px] font-bold leading-snug mb-2 text-center md:text-left">
             We love our customers <br className="hidden md:block" /> and they
@@ -31,19 +31,20 @@ const CustomerStats = () => {
           </h2>
 
           <img
-            src="https://micronet.work/demo/wp-content/uploads/2023/04/happy_girl.png"
-            alt="Girl celebrating"
+            src={"customers.png"}
+            alt="Customer"
             className="
               block 
               md:absolute 
-              md:-top-10 
-              md:-right-50 
-              md:h-[454px] 
+              md:top-0 
+              md:-right-24 
+              md:h-[409px] 
               h-[160px] 
               object-contain 
               z-10 
               mx-auto 
-              -mt-4 
+              mt-4 
+              
               md:mt-1 
               md:translate-y-[-10%]
             "
@@ -107,7 +108,7 @@ const CustomerStats = () => {
             </div>
           </div>
 
-          <div className="text-center md:-mt-6 mt-0 md:text-left">
+          <div className="text-center md:block hidden md:-mt-6 mt-0 md:text-left">
             <button className="px-4 py-1.5 border border-white rounded-full text-white text-[14px] hover:bg-white hover:text-black cursor-pointer transition">
               Learn more
             </button>

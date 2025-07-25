@@ -13,7 +13,7 @@ export default function Footer() {
 
         <div>
           <img
-            src="https://t-racktool.com/static/media/MainLogo.f1fd5127fdae55feda4f.png"
+            src={"footerlogo.png"}
             alt="T-RACK Logo"
             className="h-10 mb-4"
           />

@@ -299,7 +299,7 @@ const Navbar = () => {
         <div>
           <Link href="/">
             <img
-              src="https://t-racktool.com/static/media/MainLogo.f1fd5127fdae55feda4f.png"
+              src={"logo.jpeg"}
               alt="T-RACK Logo"
               className="h-10"
             />

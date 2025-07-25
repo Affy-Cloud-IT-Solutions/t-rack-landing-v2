@@ -24,7 +24,7 @@ const Features = () => {
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeInUp}
-        className="max-w-7xl mx-auto text-center mb-12"
+        className="max-w-7xl mx-auto text-center"
       >
         <h2 className="text-2xl md:text-4xl font-bold text-[#125A88]">
           What makes our tool stand out!
@@ -48,7 +48,7 @@ const Features = () => {
 
       {/* Dashboard Reports */}
       <motion.div
-        className="flex flex-col md:flex-row items-center justify-between gap-10"
+        className="flex flex-col md:-mt-6 md:flex-row items-center justify-between gap-10"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
@@ -56,7 +56,7 @@ const Features = () => {
       >
         <div className="flex-1 relative">
           <img
-            src="https://t-racktool.com/images/system1.png"
+            src={"dashboardImg.png"}
             alt="Dashboard"
             className="w-full md:max-w-md max-w-sm mx-auto"
           />
@@ -75,7 +75,7 @@ const Features = () => {
 
       {/* Analytics Section */}
       <motion.div
-        className="flex flex-col md:flex-row-reverse items-center justify-between gap-10 md:-mt-14"
+        className="flex flex-col md:flex-row-reverse items-center justify-between gap-10 md:-mt-26"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
