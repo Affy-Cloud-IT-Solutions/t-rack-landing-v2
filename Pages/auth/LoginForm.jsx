@@ -1,43 +1,84 @@
 "use client";
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import apiClient, { LOGIN } from '@/config/api';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import apiClient, { LOGIN } from "@/config/api";
 
 export default function LoginForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
+  const [error, setError] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const response = await apiClient.post(LOGIN, formData);
 
-      const { accessToken,refreshToken, role, isVerified } = response.data.meta;
+      const meta = response.data?.meta;
+      const message = response.data?.message;
 
+      if (!meta || !meta.accessToken) {
+        throw new Error("Invalid response format");
+      }
+
+      const { accessToken, refreshToken, role, isVerified, packageAssigned } =
+        meta;
+
+      // Store tokens and role in localStorage
       localStorage.setItem("authToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("userRole", role);
+      console.log(response.data);
 
-      if (isVerified) {
-        router.push('/plans');
+      if (isVerified && !packageAssigned) {
+        router.push("/plans");
+      } else if (isVerified && packageAssigned) {
+        window.location.href = "app.t-racktool.com";
       } else {
-        router.push('/complete-profile');
+        router.push("/complete-profile");
       }
     } catch (error) {
-      setError(error.response?.data?.message || 'Login failed');
-      // console.log(error,'error.response?.data?.message')
+      const errMsg =
+        error.response?.data?.message ||
+        error.message ||
+        "Login failed. Please try again.";
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
   };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setError("");
+
+  //   try {
+  //     const response = await apiClient.post(LOGIN, formData);
+
+  //     const { accessToken, refreshToken, role, isVerified } =
+  //       response.data.meta;
+
+  //     localStorage.setItem("authToken", accessToken);
+  //     localStorage.setItem("refreshToken", refreshToken);
+  //     localStorage.setItem("userRole", role);
+
+  //     if (isVerified) {
+  //       router.push("/plans");
+  //     } else {
+  //       router.push("/complete-profile");
+  //     }
+  //   } catch (error) {
+  //     setError(error.response?.data?.message || "Login failed");
+  //     // console.log(error,'error.response?.data?.message')
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -58,7 +99,10 @@ export default function LoginForm() {
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email Address
               </label>
               <input
@@ -68,12 +112,17 @@ export default function LoginForm() {
                 className="mt-1 appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                 placeholder="Enter your email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -83,7 +132,9 @@ export default function LoginForm() {
                 className="mt-1 appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                 placeholder="Enter your password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
             </div>
           </div>
@@ -94,20 +145,20 @@ export default function LoginForm() {
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? "Signing in..." : "Sign in"}
             </button>
           </div>
         </form>
 
         <div className="flex items-center justify-between">
           <button
-            onClick={() => router.push('/email-verification')}
+            onClick={() => router.push("/email-verification")}
             className="text-sm font-medium text-cyan-600 hover:text-cyan-500"
           >
             Create new account
           </button>
           <button
-            onClick={() => router.push('/auth/forgot-password')}
+            onClick={() => router.push("/auth/forgot-password")}
             className="text-sm font-medium text-cyan-600 hover:text-cyan-500"
           >
             Forgot password?
