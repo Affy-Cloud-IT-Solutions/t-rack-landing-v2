@@ -39,7 +39,7 @@ export default function LoginForm() {
         router.push("/plans");
       } else if (isVerified && packageAssigned) {
         window.location.href = "app.t-racktool.com";
-      } else {
+      } else if (!isVerified) {
         router.push("/complete-profile");
       }
     } catch (error) {

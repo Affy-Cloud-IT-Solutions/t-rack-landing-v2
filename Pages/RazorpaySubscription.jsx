@@ -35,8 +35,6 @@ const RazorpaySubscription = ({ subscriptionId }) => {
         // router.push("/dashboard");
         const redirectUrl = `http://localhost:5173/company?token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`;
         // const redirectUrl = `https://app.t-racktool.com/company?token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`;
-        
-        // Redirect to the protected page
         window.location.href = redirectUrl;
       },
       prefill: {
