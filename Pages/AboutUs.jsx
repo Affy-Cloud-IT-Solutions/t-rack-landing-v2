@@ -6,6 +6,7 @@ export default function AboutUs() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  //ww
 
   return (
     <div className="px-4 md:px-20 mt-16 pt-4 bg-gradient-to-b from-blue-50 to-white text-gray-800">
