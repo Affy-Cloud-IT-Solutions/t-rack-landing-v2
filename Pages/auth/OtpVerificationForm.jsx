@@ -137,10 +137,11 @@ export default function OtpVerificationForm() {
       });
 
       if (!response.data.error) {
-        const { token } = response.data.meta;
+        const { accessToken,refreshToken } = response.data.meta;
 
         // Store token first
-        window.localStorage.setItem('authToken', token);
+        window.localStorage.setItem('authToken', accessToken);
+        window.localStorage.setItem('refreshToken', refreshToken);
 
         // Wait briefly to ensure token is stored
         await new Promise(resolve => setTimeout(resolve, 100));

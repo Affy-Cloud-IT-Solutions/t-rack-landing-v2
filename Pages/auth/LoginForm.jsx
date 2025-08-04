@@ -20,9 +20,10 @@ export default function LoginForm() {
     try {
       const response = await apiClient.post(LOGIN, formData);
 
-      const { token, role, isVerified } = response.data.meta;
+      const { accessToken,refreshToken, role, isVerified } = response.data.meta;
 
-      localStorage.setItem("authToken", token);
+      localStorage.setItem("authToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("userRole", role);
 
       if (isVerified) {
@@ -32,6 +33,7 @@ export default function LoginForm() {
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Login failed');
+      // console.log(error,'error.response?.data?.message')
     } finally {
       setLoading(false);
     }

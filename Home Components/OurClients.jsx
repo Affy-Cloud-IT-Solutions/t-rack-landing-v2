@@ -3,54 +3,51 @@
 import React from "react";
 import { motion } from "framer-motion";
 import '../app/globals.css';
+import Image from "next/image";
 
 
 const clients = [
   {
-   
-    logo: "https://t-racktool.com/static/media/eleganza.f380c3061daff31748a7.png",
-
-    name: "Eleganza",
+    logo: "/mitsubishiElectric.jpg",
+    name: "Mitsubishi Electric",
     tagline: "Streamline Support, Maximize Efficiency",
   },
   {
-     logo: "https://t-racktool.com/static/media/Estetico.1cf05e96d1090d9bac24.png",
-    name: "Estetico",
+     logo: "/onex.jpg",
+    name: "Onex",
     tagline: "Empower Your Workflow with Smart Ticketing Solutions!",
   },
   {
     
-    logo: "https://t-racktool.com/static/media/threads.12306634ff255ebf6f0c.png",
-    name: "Threads",
+    logo: "/razorbackBrew.png",
+    name: "Razorback Brew",
     tagline: "Automate Support Tickets for Instant Resolution!",
   },
   {
-    logo: "https://t-racktool.com/static/media/StockMint.04f4f0ca934fd14a199b.jpg",
-    name: "Stock Mint",
-    tagline: "Optimize Your Ticketing System for Peak Performance!",
-  },
-    {
-   
-    logo: "https://t-racktool.com/static/media/eleganza.f380c3061daff31748a7.png",
-
-    name: "Eleganza",
+    logo: "/mitsubishiElectric.jpg",
+    name: "Mitsubishi Electric",
     tagline: "Streamline Support, Maximize Efficiency",
   },
-  {
-     logo: "https://t-racktool.com/static/media/Estetico.1cf05e96d1090d9bac24.png",
-    name: "Estetico",
+   {
+     logo: "/onex.jpg",
+    name: "Onex",
     tagline: "Empower Your Workflow with Smart Ticketing Solutions!",
   },
   {
     
-    logo: "https://t-racktool.com/static/media/threads.12306634ff255ebf6f0c.png",
-    name: "Threads",
+    logo: "/razorbackBrew.png",
+    name: "Razorback Brew",
     tagline: "Automate Support Tickets for Instant Resolution!",
   },
   {
-    logo: "https://t-racktool.com/static/media/StockMint.04f4f0ca934fd14a199b.jpg",
-    name: "Stock Mint",
-    tagline: "Optimize Your Ticketing System for Peak Performance!",
+    logo: "/mitsubishiElectric.jpg",
+    name: "Mitsubishi Electric",
+    tagline: "Streamline Support, Maximize Efficiency",
+  },
+  {
+     logo: "/onex.jpg",
+    name: "Onex",
+    tagline: "Empower Your Workflow with Smart Ticketing Solutions!",
   },
 ];
 
@@ -76,7 +73,7 @@ const OurClients = () => {
               key={index}
               className="flex flex-col items-center text-center min-w-[250px] md:min-w-[300px] lg:min-w-[350px]"
             >
-              <img src={client.logo} alt={client.name} className="h-28 mb-2 rounded-lg object-contain" />
+              <Image width={200} height={200} src={client.logo}  alt={client.name} className="h-28 mb-2 rounded-lg object-contain" />
               <h3 className="text-xl font-semibold">{client.name}</h3>
               <p className="text-gray-700 text-xs md:text-base font-medium">
                 "{client.tagline}"

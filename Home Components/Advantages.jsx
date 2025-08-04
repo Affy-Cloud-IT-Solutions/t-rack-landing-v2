@@ -3,9 +3,9 @@ import React from "react";
 const Advantages = () => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-between px-4 md:px-20 md:py-2 pb-8 bg-white">
-      <div className="w-full md:w-1/2 mb-10 md:mb-0">
+      <div className="w-full md:w-1/2 mb-8 md:mb-0 md:-mt-8">
         <img
-          src="https://micronet.work/demo/wp-content/uploads/2023/03/hero2.png"
+          src={"advantagesImg.png"}
           alt="Advantage"
           className="w-auto md:h-[80vh] h-[40vh] object-cover rounded-xl"
         />

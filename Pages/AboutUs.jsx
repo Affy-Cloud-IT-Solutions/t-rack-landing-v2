@@ -6,6 +6,7 @@ export default function AboutUs() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  //ww
 
   return (
     <div className="px-4 md:px-20 mt-16 pt-4 bg-gradient-to-b from-blue-50 to-white text-gray-800">
@@ -25,16 +26,7 @@ export default function AboutUs() {
         </div>
       </div>
 
-      <motion.img
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        src="https://micronet.work/demo/wp-content/uploads/2023/04/about-1536x663.png"
-        alt="Connections"
-        className="w-full rounded-lg shadow-md"
-      />
-
-      <div className="flex gap-10 items-center mt-8 mb-12">
+      <div className="flex gap-10 items-center mb-12">
         <div>
           <h2 className="text-2xl text-[#125A88] md:text-3xl font-bold leading-snug">
             We Design, we develop and we deliver.
