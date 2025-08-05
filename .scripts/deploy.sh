@@ -23,5 +23,3 @@ echo "♻️ Restarting app with PM2..."
 pm2 restart t-rack-landing-v2 || pm2 start npm --name t-rack-landing-v2 -- start -- --port 8091
 
 echo "✅ Deployment finished successfully!"
-
-
