@@ -24,3 +24,4 @@ pm2 restart t-rack-landing-v2 || pm2 start npm --name t-rack-landing-v2 -- start
 
 echo "✅ Deployment finished successfully!"
 
+
