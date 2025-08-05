@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { handleRedirect } from "@/config/api";
 
 const RazorpaySubscription = ({ subscriptionId }) => {
   const router = useRouter();
@@ -23,19 +24,12 @@ const RazorpaySubscription = ({ subscriptionId }) => {
     }
 
     const options = {
-      key: "rzp_test_LmSWny1H2dtdJz", // ✅ test key
+      key: "rzp_test_LmSWny1H2dtdJz",
       subscription_id: subscriptionId,
-      name: "AmaanCorps",
+      name: "Affy Cloud IT Solutions",
       description: "Monthly Plan Subscription",
       handler: function (response) {
-        console.log("✅ Payment success:", response);
-        const token = localStorage.getItem('authToken');
-        const role = localStorage.getItem('userRole');
-        alert("Payment successful. Redirecting...");
-        // router.push("/dashboard");
-        const redirectUrl = `http://localhost:5173/company?token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`;
-        // const redirectUrl = `https://app.t-racktool.com/company?token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`;
-        window.location.href = redirectUrl;
+        handleRedirect()
       },
       prefill: {
         name: "John Doe",

@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
 // const API_URL = 'http://192.168.1.94:8080/api/';
 // const BASE_URL = 'http://192.168.1.94:8080/';
 // const BASE_URL = 'http://192.168.29.44:8080';
-const API_URL = 'https://apiv2.t-racktool.com/api/';
-export const BASE_URL = 'https://apiv2.t-racktool.com/';
-export const REDIRECT_URL = 'https://app.t-racktool.com/';
+const API_URL = "https://apiv2.t-racktool.com/api/";
+export const BASE_URL = "https://apiv2.t-racktool.com/";
+export const REDIRECT_URL = "https://app.t-racktool.com/";
 
 export const SEND_OTP = `${API_URL}company/otp/send`;
 export const VERIFY_OTP = `${API_URL}company/register/verify-otp`;
@@ -26,41 +26,42 @@ const PUBLIC_ENDPOINTS = [
 ];
 
 // Endpoints that should never receive auth header
-const NO_AUTH_ENDPOINTS = [
-  FORGOT_PASSWORD_OR_RESEND_OTP
-];
+const NO_AUTH_ENDPOINTS = [FORGOT_PASSWORD_OR_RESEND_OTP];
 
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // ✅ Request interceptor - don't add token to public endpoints
-apiClient.interceptors.request.use((config) => {
-  // Build full URL
-  const fullUrl = new URL(config.url, config.baseURL).href;
+apiClient.interceptors.request.use(
+  (config) => {
+    // Build full URL
+    const fullUrl = new URL(config.url, config.baseURL).href;
 
-  // Never add auth header for these endpoints
-  if (NO_AUTH_ENDPOINTS.includes(fullUrl)) {
-    delete config.headers.Authorization;
+    // Never add auth header for these endpoints
+    if (NO_AUTH_ENDPOINTS.includes(fullUrl)) {
+      delete config.headers.Authorization;
+      return config;
+    }
+
+    // Skip token for public endpoints but might still have existing auth header
+    if (PUBLIC_ENDPOINTS.includes(fullUrl)) {
+      return config;
+    }
+
+    // Add token for protected endpoints
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
-  }
-
-  // Skip token for public endpoints but might still have existing auth header
-  if (PUBLIC_ENDPOINTS.includes(fullUrl)) {
-    return config;
-  }
-
-  // Add token for protected endpoints
-  const token = localStorage.getItem('authToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-}, (error) => Promise.reject(error));
+  },
+  (error) => Promise.reject(error)
+);
 
 // ✅ Response interceptor - handle 401 & refresh token
 apiClient.interceptors.response.use(
@@ -78,13 +79,13 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (!refreshToken) throw new Error('No refresh token');
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (!refreshToken) throw new Error("No refresh token");
 
         const res = await axios.post(REFRESH_TOKEN, { refreshToken });
         const newAccessToken = res.data.accessToken;
 
-        localStorage.setItem('authToken', newAccessToken);
+        localStorage.setItem("authToken", newAccessToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return apiClient(originalRequest);
@@ -98,5 +99,17 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const handleRedirect = () => {
+  const token = localStorage.getItem("authToken");
+  const refresh = localStorage.getItem("refreshToken");
+
+  if (token && refresh) {
+    const obfuscatedAccessKey = encodeURIComponent(token);
+    const obfuscatedRefreshKey = encodeURIComponent(refresh);
+    const url = `${REDIRECT_URL}login?xid=${obfuscatedAccessKey}&yref=${obfuscatedRefreshKey}`;
+    window.location.href = url;
+  }
+};
 
 export default apiClient;

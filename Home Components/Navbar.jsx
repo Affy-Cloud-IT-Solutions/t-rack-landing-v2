@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Menu, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { REDIRECT_URL } from "@/config/api";
+import { handleRedirect, REDIRECT_URL } from "@/config/api";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,17 +43,7 @@ const Navbar = () => {
     }
   };
 
-  const handleRedirect = () => {
-    const token = localStorage.getItem("authToken");
-    const refresh = localStorage.getItem("refreshToken");
-
-    if (token && refresh) {
-      const obfuscatedAccessKey = encodeURIComponent(token);
-      const obfuscatedRefreshKey = encodeURIComponent(refresh);
-      const url = `${REDIRECT_URL}login?xid=${obfuscatedAccessKey}&yref=${obfuscatedRefreshKey}`;
-      window.location.href = url;
-    }
-  };
+ 
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
