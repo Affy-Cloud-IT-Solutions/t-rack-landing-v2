@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import apiClient, { LOGIN } from "@/config/api";
+import apiClient, { LOGIN,REDIRECT_URL } from "@/config/api";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -11,6 +11,7 @@ export default function LoginForm() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -20,8 +21,6 @@ export default function LoginForm() {
       const response = await apiClient.post(LOGIN, formData);
 
       const meta = response.data?.meta;
-      const message = response.data?.message;
-
       if (!meta || !meta.accessToken) {
         throw new Error("Invalid response format");
       }
@@ -29,7 +28,6 @@ export default function LoginForm() {
       const { accessToken, refreshToken, role, isVerified, packageAssigned } =
         meta;
 
-      // Store tokens and role in localStorage
       localStorage.setItem("authToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("userRole", role);
@@ -38,7 +36,10 @@ export default function LoginForm() {
       if (isVerified && !packageAssigned) {
         router.push("/plans");
       } else if (isVerified && packageAssigned) {
-        window.location.href = "app.t-racktool.com";
+        const obfuscatedAccessKey = encodeURIComponent(accessToken);
+        const obfuscatedRefreshKey = encodeURIComponent(refreshToken);
+        const url = `${REDIRECT_URL}/login?xid=${obfuscatedAccessKey}&yref=${obfuscatedRefreshKey}`;
+        window.location.href = url;
       } else if (!isVerified) {
         router.push("/complete-profile");
       }
@@ -52,33 +53,19 @@ export default function LoginForm() {
       setLoading(false);
     }
   };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   setError("");
 
-  //   try {
-  //     const response = await apiClient.post(LOGIN, formData);
+  useEffect(() => {
+    const accessToken = localStorage.getItem("authToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    const userRole = localStorage.getItem("userRole");
 
-  //     const { accessToken, refreshToken, role, isVerified } =
-  //       response.data.meta;
-
-  //     localStorage.setItem("authToken", accessToken);
-  //     localStorage.setItem("refreshToken", refreshToken);
-  //     localStorage.setItem("userRole", role);
-
-  //     if (isVerified) {
-  //       router.push("/plans");
-  //     } else {
-  //       router.push("/complete-profile");
-  //     }
-  //   } catch (error) {
-  //     setError(error.response?.data?.message || "Login failed");
-  //     // console.log(error,'error.response?.data?.message')
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+    if (accessToken && refreshToken && userRole) {
+      const obfuscatedAccessKey = encodeURIComponent(accessToken);
+      const obfuscatedRefreshKey = encodeURIComponent(refreshToken);
+      const url = `${REDIRECT_URL}login?xid=${obfuscatedAccessKey}&yref=${obfuscatedRefreshKey}`;
+      window.location.href = url;
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

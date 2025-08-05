@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const API_URL = 'http://192.168.1.94:8080/api/';
-const BASE_URL = 'http://192.168.1.94:8080/';
+// const API_URL = 'http://192.168.1.94:8080/api/';
+// const BASE_URL = 'http://192.168.1.94:8080/';
 // const BASE_URL = 'http://192.168.29.44:8080';
+const API_URL = 'https://apiv2.t-racktool.com/api/';
+export const BASE_URL = 'https://apiv2.t-racktool.com/';
+export const REDIRECT_URL = 'https://app.t-racktool.com/';
 
 export const SEND_OTP = `${API_URL}company/otp/send`;
 export const VERIFY_OTP = `${API_URL}company/register/verify-otp`;

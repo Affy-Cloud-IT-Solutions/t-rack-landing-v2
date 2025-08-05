@@ -1,4 +1,3 @@
-// Footer.jsx
 import Link from "next/link";
 import {
   FaFacebookSquare,
@@ -55,15 +54,10 @@ export default function Footer() {
 
         <div>
           <h4 className="font-semibold text-lg mb-3">Contact Information</h4>
-          <p className="text-base mb-2">
-            <strong>Address:</strong><br />
-            123 Tech Avenue,<br />
-            Innovation City, IN 560001
-          </p>
-          <p className="text-base">
-            <strong>Phone:</strong><br />
-            +91 98765 43210
-          </p>
+          <a href="mailto:support@t-racktool.com" className="text-base mb-2">
+            <strong>Email:</strong><br />
+            support@t-racktool.com
+          </a>
         </div>
       </div>
     </footer>
