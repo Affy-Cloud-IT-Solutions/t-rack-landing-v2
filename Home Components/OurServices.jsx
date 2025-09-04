@@ -2,7 +2,7 @@ import { FaTrello, FaComments, FaChartLine } from "react-icons/fa";
 
 const OurServices = () => {
   return (
-    <section className="bg-[#f8fbfd] max-w-7xl mx-auto py-8 pb-12 px-4">
+    <section className="bg-[#f8fbfd] w-full mx-auto py-8 pb-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
           <h2 className="text-2xl md:text-4xl font-bold text-[#125A88] leading-tight">
